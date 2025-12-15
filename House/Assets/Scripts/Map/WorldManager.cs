@@ -60,4 +60,36 @@ public class WorldManager : MonoBehaviour
 
         Debug.LogWarning($"해당 위치에 Chunk 없음: {worldPos}");
     }
+    void OnDrawGizmos()
+    {
+        if (profiles == null || profiles.Length == 0) return;
+
+        int currentX = 0;
+
+        for (int i = 0; i < profiles.Length; i++)
+        {
+            var p = profiles[i];
+            if (p == null) continue;
+
+            // 청크 영역 표시
+            Gizmos.color = Color.Lerp(Color.green, Color.blue, i / (float)profiles.Length);
+
+            Vector3 center = new Vector3(
+                currentX + p.width / 2f,
+                p.maxHeight / 2f,
+                p.depth / 2f
+            );
+
+            Vector3 size = new Vector3(
+                p.width,
+                p.maxHeight,
+                p.depth
+            );
+
+            Gizmos.DrawWireCube(center, size);
+
+            // 다음 청크 위치
+            currentX += p.width + 3; // ← chunkGap 값
+        }
+    }
 }
