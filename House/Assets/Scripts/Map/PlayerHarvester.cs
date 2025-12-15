@@ -1,110 +1,137 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerHarvester : MonoBehaviour
 {
-    public float rayDistance = 5f;              // 채집 가능 거리
+    [Header("채굴")]
+    public float rayDistance = 5f;
+    public LayerMask hitMask = ~0;
+    public float hitCooldown = 0.15f;
 
-    public LayerMask hitMask = ~0;              // 가능 한 레이어 전부 다 (일단)
+    [Header("도구")]
+    public int toolDamage = 1;
 
-    public int toolDamage = 1;                  // 타격 데미지
-
-    public float hitCooldown = 0.15f;           // 연타 간격
-
-    private float _nextHitTime;
-
-    private Camera _cam;
-
-    public Inventory inventory;                 // 플레이어 인벤(없으면 자동 부착)
-    InventoryUI invenUI;
-
+    [Header("설치 미리보기")]
     public GameObject selectedBlock;
 
-    public ItemType itemType;
+    private float _nextHitTime;
+    private Camera _cam;
+
+    private Inventory inventory;
+    private InventoryUI invenUI;
 
     void Awake()
     {
         _cam = Camera.main;
-        if (inventory == null) inventory = gameObject.AddComponent<Inventory>();
+
+        inventory = GetComponent<Inventory>();
+        if (inventory == null)
+            inventory = gameObject.AddComponent<Inventory>();
+
         invenUI = FindObjectOfType<InventoryUI>();
     }
 
     void Update()
     {
+        if (invenUI == null) return;
+
+        UpdateToolDamage();
 
         if (invenUI.selectedIndex < 0)
         {
-            selectedBlock.transform.localScale = Vector3.zero;
-
- 
-
-            if (Input.GetMouseButton(0) && Time.time >= _nextHitTime)
-            {
-                _nextHitTime = Time.time + hitCooldown;
-
-                Ray ray = _cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));  // 화면 중앙
-                if (Physics.Raycast(ray, out var hit, rayDistance, hitMask, QueryTriggerInteraction.Ignore))
-                {
-                    var block = hit.collider.GetComponent<Block>();
-                    if (block != null)
-                    {
-                        block.Hit(toolDamage, inventory);
-                    }
-                }
-
-            }
+            HandleMining();
         }
         else
-        {   
-            Ray rayDebug = _cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-            if (Physics.Raycast(rayDebug, out var hitDebug, rayDistance, hitMask, QueryTriggerInteraction.Ignore))
-            {
-                //Debug.DrawRay(hitDebug.point, hitDebug.normal, Color.red, 2f);
-                Vector3Int placePos = AdjacentCellOnHitFace(hitDebug);
-                selectedBlock.transform.localScale = Vector3.one;
-                selectedBlock.transform.position = placePos;
-                selectedBlock.transform.rotation = Quaternion.identity;
-            }
-            else
-            {
-                selectedBlock.transform.localScale = Vector3.zero;
-            }
-       
+        {
+            HandlePlacement();
+        }
+    }
+
+    void HandleMining()
+    {
+        HidePreview();
+
+        if (!Input.GetMouseButton(0) || Time.time < _nextHitTime)
+            return;
+
+        _nextHitTime = Time.time + hitCooldown;
+
+        if (RaycastCenter(out RaycastHit hit))
+        {
+            Block block = hit.collider.GetComponent<Block>();
+            if (block != null)
+                block.Hit(toolDamage, inventory);
+        }
+    }
+
+    void HandlePlacement()
+    {
+        if (RaycastCenter(out RaycastHit hit))
+        {
+            Vector3Int placePos = AdjacentCellOnHitFace(hit);
+            ShowPreview(placePos);
+
             if (Input.GetMouseButtonDown(0))
             {
-                Ray ray = _cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-                if (Physics.Raycast(ray, out var hit, rayDistance, hitMask, QueryTriggerInteraction.Ignore))
+                ItemType selected = invenUI.GetInventorySlot();
+                if (inventory.Consume(selected, 1))
                 {
-                    Vector3Int placePos = AdjacentCellOnHitFace(hit);
-
-                    ItemType selected = invenUI.GetInventorySlot();
-                    if (inventory.Consume(selected, 1))
-                    {
-                        FindObjectOfType<NoiseVoxelMap>().PlaceTile(placePos, selected);
-                    }
+                    WorldManager.Instance.PlaceTile(placePos, selected);
                 }
             }
         }
-        if(invenUI.selectedIndex < 0)
-        {
-            
-        }
         else
         {
-            switch(invenUI.GetInventorySlot())
-            {
-                case ItemType.Axe:
-                    toolDamage = 3;
-                    break;
-                case ItemType.SuperAxe:
-                    toolDamage = 5;
-                    break;
-                case ItemType.SuperSuperAxe:
-                    toolDamage = 20;
-                    break;
-            }
+            HidePreview();
         }
+    }
+
+    void UpdateToolDamage()
+    {
+        // 아무 슬롯도 선택 안 했으면 기본 데미지
+        if (invenUI.selectedIndex < 0)
+        {
+            toolDamage = 1;
+            return;
+        }
+
+        ItemType selected = invenUI.GetInventorySlot();
+
+        switch (selected)
+        {
+            case ItemType.Axe:
+                toolDamage = 3;
+                break;
+            case ItemType.SuperAxe:
+                toolDamage = 5;
+                break;
+            case ItemType.SuperSuperAxe:
+                toolDamage = 20;
+                break;
+            default:
+                toolDamage = 1;
+                break;
+        }
+    }
+
+    void ShowPreview(Vector3Int pos)
+    {
+        if (selectedBlock == null) return;
+
+        selectedBlock.transform.localScale = Vector3.one;
+        selectedBlock.transform.position = pos;
+        selectedBlock.transform.rotation = Quaternion.identity;
+    }
+
+    void HidePreview()
+    {
+        if (selectedBlock == null) return;
+        selectedBlock.transform.localScale = Vector3.zero;
+    }
+
+    bool RaycastCenter(out RaycastHit hit)
+    {
+        Ray ray = _cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        return Physics.Raycast(ray, out hit, rayDistance, hitMask, QueryTriggerInteraction.Ignore);
     }
 
     static Vector3Int AdjacentCellOnHitFace(in RaycastHit hit)

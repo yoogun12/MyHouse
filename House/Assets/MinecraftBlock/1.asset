@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35f7435d4a02510419f74cea2f1b6c5f, type: 3}
+  m_Name: 1
+  m_EditorClassIdentifier: 
+  width: 20
+  depth: 20
+  maxHeight: 16
+  noiseScale: 20
+  dirtPrefab: {fileID: 3304322947674094675, guid: 85e8379e6eda6484a9e4a86f5fc4c37e,
+    type: 3}
+  grassPrefab: {fileID: 3099033759522259081, guid: 17d70c4f5801b2e43bd1a609c3ea0560,
+    type: 3}
+  decorPrefab: {fileID: 89424636134712967, guid: a005bcc4ddff30d47bf04682476a7ca0,
+    type: 3}
+  decorChance: 0.01
