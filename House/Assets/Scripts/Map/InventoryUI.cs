@@ -45,15 +45,15 @@ public class InventoryUI : MonoBehaviour
                 case ItemType.Water:
                     sItem.ItemSetting(waterSprite, "x" + item.Value.ToString(), item.Key);
                     break;
-                case ItemType.Axe:
-                    sItem.ItemSetting(axeSprite, "x" + item.Value.ToString(), item.Key);
-                    break;
-                case ItemType.SuperAxe:
-                    sItem.ItemSetting(superAxeSprite, "x" + item.Value.ToString(), item.Key);
-                    break;
-                case ItemType.SuperSuperAxe:
-                    sItem.ItemSetting(superSuperAxeSprite, "x" + item.Value.ToString(), item.Key);
-                    break;
+                //case ItemType.Axe:
+                  //  sItem.ItemSetting(axeSprite, "x" + item.Value.ToString(), item.Key);
+                  //  break;
+              //  case ItemType.SuperAxe:
+                  //  sItem.ItemSetting(superAxeSprite, "x" + item.Value.ToString(), item.Key);
+                 //   break;
+          //      case ItemType.SuperSuperAxe:
+                  //  sItem.ItemSetting(superSuperAxeSprite, "x" + item.Value.ToString(), item.Key);
+                   // break;
             }
 
             idx++;
