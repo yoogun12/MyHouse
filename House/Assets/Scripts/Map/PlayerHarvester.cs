@@ -96,21 +96,7 @@ public class PlayerHarvester : MonoBehaviour
 
         ItemType selected = invenUI.GetInventorySlot();
 
-        switch (selected)
-        {
-            case ItemType.Axe:
-                toolDamage = 3;
-                break;
-            case ItemType.SuperAxe:
-                toolDamage = 5;
-                break;
-            case ItemType.SuperSuperAxe:
-                toolDamage = 20;
-                break;
-            default:
-                toolDamage = 1;
-                break;
-        }
+ 
     }
 
     void ShowPreview(Vector3Int pos)
