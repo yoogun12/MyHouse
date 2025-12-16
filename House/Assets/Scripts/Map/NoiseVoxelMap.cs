@@ -12,6 +12,11 @@ public class NoiseVoxelMap : MonoBehaviour
 
     private Dictionary<Vector3Int, Block> blocks = new Dictionary<Vector3Int, Block>();
 
+    void Awake()
+    {
+        transform.position = Vector3.zero;
+    }
+
 
     public void Generate()
     {
@@ -66,17 +71,14 @@ public class NoiseVoxelMap : MonoBehaviour
                worldPos.z < startZ + profile.depth;
     }
 
-    public void PlaceTile(Vector3Int worldPos, ItemType type)
+    public bool PlaceTile(Vector3Int worldPos, ItemType type)
     {
-        if (!Contains(worldPos)) return;
-        if (blocks.ContainsKey(worldPos)) return; // 이미 있으면 설치 X
+        if (HasBlockAt(worldPos))
+            return false; // 이미 있음
 
-        GameObject prefab = GetPrefab(type);
-        if (prefab == null) return;
-
-        PlaceInternal(prefab, type, worldPos);
+        PlaceInternal(GetPrefab(type), type, worldPos);
+        return true;
     }
-
     void PlaceInternal(GameObject prefab, ItemType type, Vector3Int pos)
     {
         if (blocks.ContainsKey(pos)) return;
@@ -116,5 +118,15 @@ public class NoiseVoxelMap : MonoBehaviour
             Destroy(block.gameObject);
             blocks.Remove(pos);
         }
+    }
+
+    public bool HasBlockAt(Vector3Int worldPos)
+    {
+        foreach (Transform child in transform)
+        {
+            if (Vector3Int.RoundToInt(child.position) == worldPos)
+                return true;
+        }
+        return false;
     }
 }

@@ -122,8 +122,12 @@ public class PlayerHarvester : MonoBehaviour
 
     static Vector3Int AdjacentCellOnHitFace(in RaycastHit hit)
     {
-        Vector3 baseCenter = hit.collider.transform.position;
-        Vector3 adjCenter = baseCenter + hit.normal;
-        return Vector3Int.RoundToInt(adjCenter);
+        Vector3 normal = hit.normal;
+        normal.x = Mathf.Round(normal.x);
+        normal.y = Mathf.Round(normal.y);
+        normal.z = Mathf.Round(normal.z);
+
+        Vector3 basePos = hit.collider.transform.position;
+        return Vector3Int.RoundToInt(basePos + normal);
     }
 }
