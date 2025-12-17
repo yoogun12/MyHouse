@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ItemType { floor2, floor1, Slime , Skull, Crystal , None}
+public enum ItemType { floor2, floor1, Slime , Skull, Crystal , SkullChair, SlimeBed, Lighting,None }
 public class Block : MonoBehaviour
 {
     [Header("Block Stat")]

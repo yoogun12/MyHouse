@@ -11,6 +11,9 @@ public class InventoryUI : MonoBehaviour
     public Sprite slimeSprite;
     public Sprite skullSprite;
     public Sprite crystalSprite;
+    public Sprite lightingSprite;
+    public Sprite slimeBedSprite;
+    public Sprite skullChairSprite;
 
     public List<Transform> Slot = new List<Transform>();
     public GameObject SlotItem;
@@ -50,7 +53,17 @@ public class InventoryUI : MonoBehaviour
                     break;
                 case ItemType.Crystal:
                     sItem.ItemSetting(crystalSprite, "x" + item.Value.ToString(), item.Key);
-                    break;           
+                    break;
+                case ItemType.Lighting:
+                    sItem.ItemSetting(lightingSprite, "x" + item.Value.ToString(), item.Key);
+                    break;
+                case ItemType.SlimeBed:
+                    sItem.ItemSetting(slimeBedSprite, "x" + item.Value.ToString(), item.Key);
+                    break;
+                case ItemType.SkullChair:
+                    sItem.ItemSetting(skullChairSprite, "x" + item.Value.ToString(), item.Key);
+                    break;
+                    
             }
 
             idx++;

@@ -128,6 +128,10 @@ public class NoiseVoxelMap : MonoBehaviour
             case ItemType.Skull: return profile.skullPrefab;
             case ItemType.Crystal: return profile.crystalPrefab;
 
+            case ItemType.SlimeBed: return profile.slimeBedPrefab;
+            case ItemType.Lighting: return profile.lightingPrefab;
+            case ItemType.SkullChair: return profile.skullChairPrefab;
+
             default: return null;
         }
     }

@@ -24,4 +24,7 @@ public class MapProfile : ScriptableObject
     public GameObject slimePrefab;
     public GameObject skullPrefab;
     public GameObject crystalPrefab;
+    public GameObject slimeBedPrefab;
+    public GameObject skullChairPrefab;
+    public GameObject lightingPrefab;
 }

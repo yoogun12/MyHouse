@@ -21,6 +21,8 @@ public class CraftingPanel : MonoBehaviour
 
     void Start()
     {
+        inventory = FindObjectOfType<Inventory>();
+
         SetOpen(false);
         craftButton.onClick.AddListener(DoCraft);
         clearButton.onClick.AddListener(ClearPlanned);
@@ -52,6 +54,7 @@ public class CraftingPanel : MonoBehaviour
 
         RefreshPlannedUI();
         SetHint($"{type} x{count} 추가 완료");
+        Debug.Log($"[Add Inventory] {GetInstanceID()}");
     }
 
     public void ClearPlanned()
@@ -88,6 +91,7 @@ public class CraftingPanel : MonoBehaviour
 
     void DoCraft()
     {
+        Debug.Log($"[Craft Inventory] {inventory.GetInstanceID()}");
         if (planned.Count == 0)
         {
             SetHint("재료가 부족합니다.");

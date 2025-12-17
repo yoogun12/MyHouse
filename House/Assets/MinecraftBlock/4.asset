@@ -28,3 +28,9 @@ MonoBehaviour:
     type: 3}
   crystalPrefab: {fileID: 89424636134712967, guid: 1485fc96ac2bcc24db44a2b5d584893e,
     type: 3}
+  slimeBedPrefab: {fileID: 89424636134712967, guid: db171f460705ce947b466c4a085b1b8c,
+    type: 3}
+  skullChairPrefab: {fileID: 89424636134712967, guid: 200f2fec75cdc95459e9be93d8b66ad9,
+    type: 3}
+  lightingPrefab: {fileID: 89424636134712967, guid: 5e39830623184604895c24e310c589cd,
+    type: 3}
