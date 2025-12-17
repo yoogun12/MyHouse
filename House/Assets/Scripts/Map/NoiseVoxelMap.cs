@@ -3,12 +3,15 @@ using System.Collections.Generic;
 
 public class NoiseVoxelMap : MonoBehaviour
 {
+    [Header("프로파일")]
     public MapProfile profile;
+
+    [Header("청크 설정")]
+    public bool generateTerrain = true; //  false = 빈 청크
 
     [Header("월드 오프셋")]
     public int startX;
     public int startZ;
-
 
     private Dictionary<Vector3Int, Block> blocks = new Dictionary<Vector3Int, Block>();
 
@@ -17,9 +20,11 @@ public class NoiseVoxelMap : MonoBehaviour
         transform.position = Vector3.zero;
     }
 
-
     public void Generate()
     {
+        if (!generateTerrain)
+            return;
+
         float offsetX = Random.Range(-9999f, 9999f);
         float offsetZ = Random.Range(-9999f, 9999f);
 
@@ -44,24 +49,31 @@ public class NoiseVoxelMap : MonoBehaviour
                     );
 
                     if (y == h)
-                        PlaceInternal(profile.grassPrefab, ItemType.Grass, pos);
+                        PlaceInternal(profile.grassPrefab, ItemType.floor1, pos);
                     else
-                        PlaceInternal(profile.dirtPrefab, ItemType.Dirt, pos);
+                        PlaceInternal(profile.dirtPrefab, ItemType.floor2, pos);
                 }
 
-                // 장식 블럭
-                if (Random.value < profile.decorChance)
+                // 데코 (프로파일에서 지정한 1종류만)
+                if (profile.decorType != ItemType.None &&
+                    Random.value < profile.decorChance)
                 {
                     Vector3Int decorPos = new Vector3Int(
                         x + startX,
                         h + 1,
                         z + startZ
                     );
-                    PlaceInternal(profile.decorPrefab, ItemType.Water, decorPos);
+
+                    PlaceInternal(
+                        GetPrefab(profile.decorType),
+                        profile.decorType,
+                        decorPos
+                    );
                 }
             }
         }
     }
+
 
     public bool Contains(Vector3Int worldPos)
     {
@@ -73,41 +85,50 @@ public class NoiseVoxelMap : MonoBehaviour
 
     public bool PlaceTile(Vector3Int worldPos, ItemType type)
     {
-        if (HasBlockAt(worldPos))
-            return false; // 이미 있음
+        if (blocks.ContainsKey(worldPos))
+            return false;
 
-        PlaceInternal(GetPrefab(type), type, worldPos);
+        GameObject prefab = GetPrefab(type);
+        if (prefab == null)
+            return false;
+
+        PlaceInternal(prefab, type, worldPos);
         return true;
     }
+
     void PlaceInternal(GameObject prefab, ItemType type, Vector3Int pos)
     {
         if (blocks.ContainsKey(pos)) return;
 
-        var go = Instantiate(prefab, pos, Quaternion.identity, transform);
+        GameObject go = Instantiate(prefab, pos, Quaternion.identity, transform);
 
-        var block = go.GetComponent<Block>();
+        Block block = go.GetComponent<Block>();
         if (block == null)
             block = go.AddComponent<Block>();
 
         block.type = type;
-        block.mineable = true;
-        block.maxHP = (type == ItemType.Water) ? 1 : 3;
+
+        // 빈 청크에서는 채굴 불가
+        block.mineable = generateTerrain;
+
+        block.maxHP = (type == ItemType.Slime) ? 1 : 3;
         block.dropCount = 1;
 
         blocks.Add(pos, block);
     }
+
     GameObject GetPrefab(ItemType type)
     {
         switch (type)
         {
-            case ItemType.Dirt:
-                return profile.dirtPrefab;
-            case ItemType.Grass:
-                return profile.grassPrefab;
-            case ItemType.Water:
-                return profile.decorPrefab;
-            default:
-                return null;
+            case ItemType.floor1: return profile.grassPrefab;
+            case ItemType.floor2: return profile.dirtPrefab;
+
+            case ItemType.Slime: return profile.slimePrefab;
+            case ItemType.Skull: return profile.skullPrefab;
+            case ItemType.Crystal: return profile.crystalPrefab;
+
+            default: return null;
         }
     }
 
@@ -122,11 +143,6 @@ public class NoiseVoxelMap : MonoBehaviour
 
     public bool HasBlockAt(Vector3Int worldPos)
     {
-        foreach (Transform child in transform)
-        {
-            if (Vector3Int.RoundToInt(child.position) == worldPos)
-                return true;
-        }
-        return false;
+        return blocks.ContainsKey(worldPos);
     }
 }

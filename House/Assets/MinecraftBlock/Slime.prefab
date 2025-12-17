@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 2855289228473631297}
   - component: {fileID: 5217419540253656168}
   - component: {fileID: 7076467568897365583}
-  - component: {fileID: 4214520013989408460}
+  - component: {fileID: -8421526242073086836}
   m_Layer: 6
-  m_Name: Skull
+  m_Name: Slime
   m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1a287be5c7f3bde48b44291e5badb868, type: 2}
+  - {fileID: 2100000, guid: 1a46567ac5973ec45b0af99f37bbe555, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -106,7 +106,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4214520013989408460
+--- !u!114 &-8421526242073086836
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,8 +118,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dada09de07c4de3428fe81fbaddb48d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 3
-  maxHP: 3
+  type: 2
+  maxHP: 5
   hp: 0
   dropCount: 1
   mineable: 1

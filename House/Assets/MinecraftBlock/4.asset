@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35f7435d4a02510419f74cea2f1b6c5f, type: 3}
-  m_Name: 1
+  m_Name: 4
   m_EditorClassIdentifier: 
   width: 20
   depth: 20
-  maxHeight: 10
+  maxHeight: 0
   noiseScale: 20
-  grassPrefab: {fileID: 3099033759522259081, guid: 17d70c4f5801b2e43bd1a609c3ea0560,
+  grassPrefab: {fileID: 3099033759522259081, guid: 2c4c51c688e763a43b41026e07ea5309,
     type: 3}
-  dirtPrefab: {fileID: 3304322947674094675, guid: 85e8379e6eda6484a9e4a86f5fc4c37e,
+  dirtPrefab: {fileID: 3099033759522259081, guid: 2c4c51c688e763a43b41026e07ea5309,
     type: 3}
+  decorType: 4
+  decorChance: 0
   slimePrefab: {fileID: 89424636134712967, guid: a005bcc4ddff30d47bf04682476a7ca0,
     type: 3}
   skullPrefab: {fileID: 89424636134712967, guid: 9b0ac7cbf8dde6d40b305bed044e6521,
     type: 3}
   crystalPrefab: {fileID: 89424636134712967, guid: 1485fc96ac2bcc24db44a2b5d584893e,
     type: 3}
-  decorType: 2
-  decorChance: 0.01

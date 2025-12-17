@@ -16,10 +16,15 @@ MonoBehaviour:
   depth: 20
   maxHeight: 10
   noiseScale: 20
-  dirtPrefab: {fileID: 3304322947674094675, guid: 85e8379e6eda6484a9e4a86f5fc4c37e,
-    type: 3}
   grassPrefab: {fileID: 3099033759522259081, guid: 17d70c4f5801b2e43bd1a609c3ea0560,
     type: 3}
-  decorPrefab: {fileID: 89424636134712967, guid: a005bcc4ddff30d47bf04682476a7ca0,
+  dirtPrefab: {fileID: 3304322947674094675, guid: 85e8379e6eda6484a9e4a86f5fc4c37e,
     type: 3}
+  slimePrefab: {fileID: 89424636134712967, guid: a005bcc4ddff30d47bf04682476a7ca0,
+    type: 3}
+  skullPrefab: {fileID: 89424636134712967, guid: 9b0ac7cbf8dde6d40b305bed044e6521,
+    type: 3}
+  crystalPrefab: {fileID: 89424636134712967, guid: 1485fc96ac2bcc24db44a2b5d584893e,
+    type: 3}
+  decorType: 3
   decorChance: 0.01

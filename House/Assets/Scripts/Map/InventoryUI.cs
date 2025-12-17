@@ -8,9 +8,9 @@ public class InventoryUI : MonoBehaviour
     public Sprite dirtSprite;
     public Sprite grassSprite;
     public Sprite waterSprite;
-    public Sprite axeSprite;
-    public Sprite superAxeSprite;
-    public Sprite superSuperAxeSprite;
+    public Sprite slimeSprite;
+    public Sprite skullSprite;
+    public Sprite crystalSprite;
 
     public List<Transform> Slot = new List<Transform>();
     public GameObject SlotItem;
@@ -36,24 +36,21 @@ public class InventoryUI : MonoBehaviour
 
             switch (item.Key)
             {
-                case ItemType.Dirt:
+                case ItemType.floor2:
                     sItem.ItemSetting(dirtSprite, "x" + item.Value.ToString(), item.Key);
                     break;
-                case ItemType.Grass:
+                case ItemType.floor1:
                     sItem.ItemSetting(grassSprite, "x" + item.Value.ToString(), item.Key);
                     break;
-                case ItemType.Water:
+                case ItemType.Slime:
                     sItem.ItemSetting(waterSprite, "x" + item.Value.ToString(), item.Key);
                     break;
-                //case ItemType.Axe:
-                  //  sItem.ItemSetting(axeSprite, "x" + item.Value.ToString(), item.Key);
-                  //  break;
-              //  case ItemType.SuperAxe:
-                  //  sItem.ItemSetting(superAxeSprite, "x" + item.Value.ToString(), item.Key);
-                 //   break;
-          //      case ItemType.SuperSuperAxe:
-                  //  sItem.ItemSetting(superSuperAxeSprite, "x" + item.Value.ToString(), item.Key);
-                   // break;
+                case ItemType.Skull:
+                    sItem.ItemSetting(skullSprite, "x" + item.Value.ToString(), item.Key);
+                    break;
+                case ItemType.Crystal:
+                    sItem.ItemSetting(crystalSprite, "x" + item.Value.ToString(), item.Key);
+                    break;           
             }
 
             idx++;
